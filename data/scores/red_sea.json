@@ -1,0 +1,38 @@
+[
+  {
+    "corridor": "red_sea",
+    "corridor_name": "Bab-el-Mandeb / Red Sea",
+    "score": 0.0,
+    "components": {
+      "news_pressure": 0.0,
+      "ais_pressure": 0.0,
+      "price_momentum": 0.0,
+      "sanctions_pressure": 0.0
+    },
+    "computed_at": "2026-07-22T16:06:13.718505+00:00"
+  },
+  {
+    "corridor": "red_sea",
+    "corridor_name": "Bab-el-Mandeb / Red Sea",
+    "score": 0.0,
+    "components": {
+      "news_pressure": 0.0,
+      "ais_pressure": 0.0,
+      "price_momentum": 0.0,
+      "sanctions_pressure": 0.0
+    },
+    "computed_at": "2026-07-22T16:43:50.807248+00:00"
+  },
+  {
+    "corridor": "red_sea",
+    "corridor_name": "Bab-el-Mandeb / Red Sea",
+    "score": 0.0,
+    "components": {
+      "news_pressure": 0.0,
+      "ais_pressure": 0.0,
+      "price_momentum": 0.0,
+      "sanctions_pressure": 0.0
+    },
+    "computed_at": "2026-07-22T17:33:00.615671+00:00"
+  }
+]

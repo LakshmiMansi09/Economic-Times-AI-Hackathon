@@ -1,0 +1,38 @@
+[
+  {
+    "corridor": "hormuz",
+    "corridor_name": "Strait of Hormuz",
+    "score": 0.0,
+    "components": {
+      "news_pressure": 0.0,
+      "ais_pressure": 0.0,
+      "price_momentum": 0.0,
+      "sanctions_pressure": 0.0
+    },
+    "computed_at": "2026-07-22T17:33:00.615240+00:00"
+  },
+  {
+    "corridor": "red_sea",
+    "corridor_name": "Bab-el-Mandeb / Red Sea",
+    "score": 0.0,
+    "components": {
+      "news_pressure": 0.0,
+      "ais_pressure": 0.0,
+      "price_momentum": 0.0,
+      "sanctions_pressure": 0.0
+    },
+    "computed_at": "2026-07-22T17:33:00.615671+00:00"
+  },
+  {
+    "corridor": "malacca",
+    "corridor_name": "Strait of Malacca",
+    "score": 0.0,
+    "components": {
+      "news_pressure": 0.0,
+      "ais_pressure": 0.0,
+      "price_momentum": 0.0,
+      "sanctions_pressure": 0.0
+    },
+    "computed_at": "2026-07-22T17:33:00.616015+00:00"
+  }
+]

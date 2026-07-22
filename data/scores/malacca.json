@@ -1,0 +1,38 @@
+[
+  {
+    "corridor": "malacca",
+    "corridor_name": "Strait of Malacca",
+    "score": 0.0,
+    "components": {
+      "news_pressure": 0.0,
+      "ais_pressure": 0.0,
+      "price_momentum": 0.0,
+      "sanctions_pressure": 0.0
+    },
+    "computed_at": "2026-07-22T16:06:13.718997+00:00"
+  },
+  {
+    "corridor": "malacca",
+    "corridor_name": "Strait of Malacca",
+    "score": 0.0,
+    "components": {
+      "news_pressure": 0.0,
+      "ais_pressure": 0.0,
+      "price_momentum": 0.0,
+      "sanctions_pressure": 0.0
+    },
+    "computed_at": "2026-07-22T16:43:50.807929+00:00"
+  },
+  {
+    "corridor": "malacca",
+    "corridor_name": "Strait of Malacca",
+    "score": 0.0,
+    "components": {
+      "news_pressure": 0.0,
+      "ais_pressure": 0.0,
+      "price_momentum": 0.0,
+      "sanctions_pressure": 0.0
+    },
+    "computed_at": "2026-07-22T17:33:00.616015+00:00"
+  }
+]
