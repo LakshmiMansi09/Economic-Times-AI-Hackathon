@@ -1,0 +1,71 @@
+{
+  "_source_note": "Reconstructed from public reporting (Congressional Research Service, Kiel Institute, LNRG Technology, Cashu Research, discoveryalert.com.au) for offline backtesting. Severities/confidences below are this project's own estimates based on described event magnitude, not scores taken from those sources.",
+  "events": [
+    {
+      "timestamp": "2026-02-10T00:00:00Z",
+      "corridor": "hormuz",
+      "event_type": "diplomatic_statement",
+      "severity": 0.25,
+      "confidence": 0.9,
+      "summary": "Renewed US sanctions pressure on Iranian oil exports escalates diplomatic tension in the Gulf."
+    },
+    {
+      "timestamp": "2026-02-20T00:00:00Z",
+      "corridor": "hormuz",
+      "event_type": "military_buildup",
+      "severity": 0.45,
+      "confidence": 0.85,
+      "summary": "Reports of naval posturing near the Strait of Hormuz as US-Iran tension intensifies."
+    },
+    {
+      "timestamp": "2026-03-01T00:00:00Z",
+      "corridor": "hormuz",
+      "event_type": "attack",
+      "severity": 0.75,
+      "confidence": 0.9,
+      "summary": "Escalation to direct military engagement; tanker loadings begin slowing sharply."
+    },
+    {
+      "timestamp": "2026-03-10T00:00:00Z",
+      "corridor": "hormuz",
+      "event_type": "seizure",
+      "severity": 0.85,
+      "confidence": 0.9,
+      "summary": "Tanker transit through the Strait falls to a trickle; Gulf producers begin curtailing output."
+    },
+    {
+      "timestamp": "2026-03-18T00:00:00Z",
+      "corridor": "hormuz",
+      "event_type": "attack",
+      "severity": 0.95,
+      "confidence": 0.95,
+      "summary": "Near-total disruption to Hormuz transit; IEA characterizes it as the largest supply disruption in the history of the world oil market."
+    },
+    {
+      "timestamp": "2026-04-05T00:00:00Z",
+      "corridor": "hormuz",
+      "event_type": "diplomatic_statement",
+      "severity": 0.55,
+      "confidence": 0.8,
+      "summary": "Early signs of de-escalation talks, though transit remains severely restricted."
+    },
+    {
+      "timestamp": "2026-05-01T00:00:00Z",
+      "corridor": "hormuz",
+      "event_type": "diplomatic_statement",
+      "severity": 0.3,
+      "confidence": 0.75,
+      "summary": "Partial reopening reported; physical market tightness expected to persist for months."
+    }
+  ],
+  "brent_price_series": [
+    {"timestamp": "2026-02-01T00:00:00Z", "price": 73.0},
+    {"timestamp": "2026-02-15T00:00:00Z", "price": 78.5},
+    {"timestamp": "2026-03-01T00:00:00Z", "price": 88.0},
+    {"timestamp": "2026-03-15T00:00:00Z", "price": 103.0},
+    {"timestamp": "2026-04-01T00:00:00Z", "price": 97.0},
+    {"timestamp": "2026-04-15T00:00:00Z", "price": 91.5},
+    {"timestamp": "2026-05-01T00:00:00Z", "price": 85.0},
+    {"timestamp": "2026-05-15T00:00:00Z", "price": 82.0}
+  ]
+}
