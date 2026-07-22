@@ -1,0 +1,23 @@
+{
+  "hormuz": {
+    "name": "Strait of Hormuz",
+    "bbox": { "min_lat": 25.3, "max_lat": 27.3, "min_lon": 55.8, "max_lon": 57.2 },
+    "news_keywords": ["Strait of Hormuz", "Iran oil tanker", "Persian Gulf shipping", "Iran sanctions oil"],
+    "typical_suppliers": ["Saudi Arabia", "Iraq", "UAE", "Kuwait", "Iran", "Qatar"],
+    "relevant_entities": ["IRGC", "National Iranian Tanker Company", "OFAC Iran sanctions program"]
+  },
+  "red_sea": {
+    "name": "Bab-el-Mandeb / Red Sea",
+    "bbox": { "min_lat": 11.5, "max_lat": 16.5, "min_lon": 41.5, "max_lon": 44.5 },
+    "news_keywords": ["Bab-el-Mandeb", "Red Sea shipping attack", "Houthi tanker", "Red Sea vessel strike"],
+    "typical_suppliers": ["Saudi Arabia", "Egypt (Suez transit)", "Sudan"],
+    "relevant_entities": ["Houthi movement", "OFAC Houthi sanctions program"]
+  },
+  "malacca": {
+    "name": "Strait of Malacca",
+    "bbox": { "min_lat": 1.0, "max_lat": 6.0, "min_lon": 98.0, "max_lon": 103.0 },
+    "news_keywords": ["Strait of Malacca", "Malacca piracy", "Singapore shipping lane", "Malacca tanker incident"],
+    "typical_suppliers": ["Indonesia", "Malaysia", "transshipment for East Asian crude"],
+    "relevant_entities": ["Malacca Strait Patrol", "regional piracy monitoring"]
+  }
+}
