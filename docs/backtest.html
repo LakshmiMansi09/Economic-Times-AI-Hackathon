@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal Replay — CorridorWatch</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23FBE9EC'/%3E%3Cpath d='M7 19h18l-3 5H10z' fill='%23C8102E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-active="signal-replay">
+
+<h2 class="sr-only">Signal Replay page: replays the 2026 Strait of Hormuz crisis through the scoring model and compares it to the actual Brent crude price movement.</h2>
+
+<div class="app-shell" id="app-shell">
+  <div class="content">
+    <div class="content-inner">
+
+      <div class="page-title-block">
+        <p class="eyebrow">Signal replay — Strait of Hormuz, Feb–May 2026</p>
+        <h1 class="section-title">Would this score have caught the real crisis?</h1>
+      </div>
+
+      <div class="stat-strip" id="stat-strip">
+        <div class="stat-tile skeleton" style="height:90px;"></div>
+        <div class="stat-tile skeleton" style="height:90px;"></div>
+        <div class="stat-tile skeleton" style="height:90px;"></div>
+        <div class="stat-tile skeleton" style="height:90px;"></div>
+      </div>
+
+      <div class="callout" id="lead-time-callout">Loading replay result…</div>
+
+      <div class="panel" style="margin-bottom: 40px;">
+        <div id="backtest-chart"></div>
+      </div>
+
+      <div class="prose centered">
+        <div class="subtabs" role="tablist">
+          <button class="subtab active" data-tab="scope">Replay scope and limitations</button>
+          <button class="subtab" data-tab="how">How calibration works</button>
+        </div>
+
+        <div class="subtab-panel active" data-panel="scope">
+          <h2 style="margin-top:0;">Replay scope and limitations</h2>
+          <p>
+            This replays a curated timeline of the actual Feb–May 2026 Strait of Hormuz disruption
+            through the same <code>compute_corridor_score()</code> function the live dashboard uses —
+            day by day, using only information that would have been available up to that date.
+            It is not a live historical data pull; the event timeline was reconstructed from public
+            reporting (Congressional Research Service, Kiel Institute, LNRG Technology, Cashu Research)
+            for offline testing, since this environment has no way to re-query GDELT for a past date range.
+          </p>
+          <p>
+            <strong>What this replay does not cover:</strong> AIS anomaly counts and sanctions deltas
+            for this specific historical window were not independently reconstructed, so only the
+            news and price weights were calibrated this way — the AIS and sanctions weights keep their
+            design-time defaults. That's a real gap, not a hidden one.
+          </p>
+        </div>
+
+        <div class="subtab-panel" data-panel="how">
+          <h2 style="margin-top:0;">How calibration works</h2>
+          <p>
+            The news and price weights shown above were grid-searched to maximize how early the score
+            crossed a high-risk threshold relative to when Brent actually crossed $100/bbl — that search
+            is what <code>scripts/backtest.py</code> does, and its result is written to
+            <code>data/calibrated_weights.json</code>, which the live scorer picks up automatically.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/nav.js"></script>
+<script src="js/subtabs.js"></script>
+<script src="js/backtest.js"></script>
+</body>
+</html>

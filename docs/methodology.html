@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Models and Data — CorridorWatch</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23FBE9EC'/%3E%3Cpath d='M7 19h18l-3 5H10z' fill='%23C8102E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-active="models-data">
+
+<div class="app-shell" id="app-shell">
+  <div class="content">
+    <div class="content-inner">
+
+      <div class="page-title-block">
+        <p class="eyebrow">How the score is built</p>
+        <h1 class="section-title">Models &amp; data</h1>
+      </div>
+
+      <div class="prose centered">
+        <div class="subtabs" role="tablist">
+          <button class="subtab active" data-tab="weights">Active weights</button>
+          <button class="subtab" data-tab="sources">Data sources</button>
+          <button class="subtab" data-tab="extraction">Extraction</button>
+          <button class="subtab" data-tab="scoring">Scoring formula</button>
+          <button class="subtab" data-tab="limits">Limitations</button>
+        </div>
+
+        <div class="subtab-panel active" data-panel="weights" style="text-align:center;">
+          <h2 style="margin-top:0;">Active weights that are currently being used now</h2>
+          <p class="muted" style="font-size:14px;">Loaded live from <code>data/calibrated_weights.json</code> — this is what your scorer is actually using this instant, not a hardcoded example.</p>
+          <div class="weight-legend" id="weight-legend"></div>
+          <div class="weight-bar-track" id="weight-bar" style="max-width:680px; margin-left:auto; margin-right:auto;"></div>
+          <p style="font-size:14px;" id="weight-source"></p>
+        </div>
+
+        <div class="subtab-panel" data-panel="sources" style="text-align:center;">
+          <h2 style="margin-top:0;">Data sources</h2>
+          <ul style="display:inline-block; text-align:left; max-width:640px;">
+            <li><strong>News</strong> — GDELT DOC 2.0 API, free, queried per corridor keyword every pipeline run.</li>
+            <li><strong>AIS</strong> — aisstream.io, free tier, burst-sampled ~90 seconds per corridor per run (see limitations).</li>
+            <li><strong>Prices</strong> — oilpriceapi.com, free tier, Brent and WTI.</li>
+            <li><strong>Sanctions</strong> — OFAC's public SDN list, diffed against the previous snapshot each run.</li>
+          </ul>
+        </div>
+
+        <div class="subtab-panel" data-panel="extraction" style="text-align:center;">
+          <h2 style="margin-top:0;">Extraction</h2>
+          <p style="display:inline-block; text-align:left; max-width:680px;">
+            Each news article is passed to an LLM (Groq free tier) with a fixed extraction schema:
+            <code>corridor, actors, event_type, severity, confidence, summary</code>. Before scoring,
+            the 3–5 most similar past events for that corridor are retrieved from a local vector index
+            (sentence-transformers embeddings, cosine similarity — no managed vector database) and given
+            to the LLM as calibration anchors, so severity scoring stays consistent over time instead of
+            drifting article to article. Articles with confidence below 0.4 are dropped rather than
+            written into the graph.
+          </p>
+        </div>
+
+        <div class="subtab-panel" data-panel="scoring" style="text-align:center;">
+          <h2 style="margin-top:0;">Scoring formula</h2>
+          <p><code>score = normalize(w1·news_pressure + w2·ais_pressure + w3·price_momentum + w4·sanctions_pressure)</code></p>
+          <ul style="display:inline-block; text-align:left; max-width:700px;">
+            <li><strong>news_pressure</strong> — each event's <code>severity × confidence</code>, decayed
+              exponentially with a 60-hour half-life, summed across all events for that corridor. This is
+              what makes the score behave like a live instrument: it cools down on its own if nothing new
+              happens, rather than staying pinned at a stale high value.</li>
+            <li><strong>ais_pressure</strong> — count of flagged anomalies (speed jumps, AIS transmission
+              gaps) in the corridor's bounding box during the most recent sampling window.</li>
+            <li><strong>price_momentum</strong> — a clipped z-score of the latest price against its recent
+              rolling window; only upside momentum raises the score.</li>
+            <li><strong>sanctions_pressure</strong> — new OFAC designations that name an entity on the
+              corridor's watchlist (e.g. IRGC-linked shipping entities for Hormuz).</li>
+          </ul>
+        </div>
+
+        <div class="subtab-panel" data-panel="limits" style="text-align:center;">
+          <h2 style="margin-top:0;">Limitations — stated deliberately</h2>
+          <div style="display:inline-block; text-align:left; max-width:720px;">
+            <div class="callout">
+              <strong>AIS is burst-sampled, not continuous.</strong> This is a local process without an
+              always-on server, so each pipeline run opens a websocket for ~90 seconds per corridor rather
+              than streaming continuously between runs. Anomaly detection quality scales with sample
+              duration; a longer-running deployment would hold the connection open persistently instead.
+            </div>
+            <div class="callout">
+              <strong>The knowledge graph is JSON, not a graph database.</strong> At the data volumes this
+              produces (hundreds to low thousands of events), a committed JSON file is simpler and free.
+              The upgrade path if corridor/entity relationships grow complex enough to need real graph
+              traversal is Neo4j or a similar store, using the same node/edge schema.
+            </div>
+            <div class="callout">
+              <strong>The replay only calibrates two of four weights.</strong> AIS anomaly counts and
+              sanctions deltas for the Feb–May 2026 window were not independently reconstructed, so only
+              the news and price weights were grid-searched against real outcomes — the AIS and sanctions
+              weights are still design-time estimates, not calibrated ones.
+            </div>
+            <div class="callout">
+              <strong>The extraction model is a free-tier LLM.</strong> Groq's free tier is used by default
+              for cost reasons. The extraction prompt and ontology are model-agnostic — swapping in a
+              stronger model only requires changing the client in <code>scripts/extract.py</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/nav.js"></script>
+<script src="js/subtabs.js"></script>
+<script>
+async function loadWeights() {
+  let weights = { news: 0.40, ais: 0.25, price: 0.20, sanctions: 0.15 };
+  let source = 'design-time default — run scripts/backtest.py to calibrate against the 2026 Hormuz crisis';
+  try {
+    const res = await fetch('/data/calibrated_weights.json?t=' + Date.now());
+    if (res.ok) {
+      weights = await res.json();
+      source = 'calibrated by scripts/backtest.py against the 2026 Hormuz replay';
+    }
+  } catch (e) {}
+
+  const parts = [
+    { key: 'news', label: 'News', color: '#C8102E' },
+    { key: 'ais', label: 'AIS', color: '#6B7280' },
+    { key: 'price', label: 'Price', color: '#D97706' },
+    { key: 'sanctions', label: 'Sanctions', color: '#1A1A1A' },
+  ];
+  const total = parts.reduce((s, p) => s + (weights[p.key] || 0), 0);
+
+  document.getElementById('weight-legend').innerHTML = parts.map(p =>
+    `<span><span class="sw" style="background:${p.color}"></span>${p.label}: ${(weights[p.key] || 0).toFixed(2)}</span>`
+  ).join('');
+
+  document.getElementById('weight-bar').innerHTML = parts.map(p => {
+    const pct = total > 0 ? ((weights[p.key] || 0) / total) * 100 : 0;
+    return `<div class="weight-bar-seg" style="width:${pct}%; background:${p.color};">${pct >= 8 ? Math.round(pct) + '%' : ''}</div>`;
+  }).join('');
+
+  document.getElementById('weight-source').innerHTML = `<span class="muted">${source}</span>`;
+}
+loadWeights();
+</script>
+</body>
+</html>

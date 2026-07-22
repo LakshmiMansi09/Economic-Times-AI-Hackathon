@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CorridorWatch — Energy Supply Chain Risk Intelligence</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23FBE9EC'/%3E%3Cpath d='M7 19h18l-3 5H10z' fill='%23C8102E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-active="dashboard">
+
+<h2 class="sr-only">CorridorWatch dashboard: a live composite risk index and per-corridor risk gauges for three oil shipping chokepoints, with reference context, top signals, an evidence feed, and a geographic overview.</h2>
+
+<div class="app-shell" id="app-shell">
+  <!-- left nav injected by nav.js -->
+  <div class="content">
+    <div class="content-inner">
+
+      <div class="content-topbar">
+        <span class="status-line tabular" id="status-line"></span>
+        <div class="clock" id="utc-clock">--:--:-- UTC</div>
+        <button class="btn" id="export-btn">Export report</button>
+        <button class="btn btn-primary" id="refresh-btn">Refresh now</button>
+      </div>
+
+      <section class="hero">
+        <div class="hero-panel">
+          <p class="eyebrow">Global composite risk index</p>
+          <div class="hero-gauge-row">
+            <div id="hero-gauge" class="hero-gauge"></div>
+            <div class="hero-copy">
+              <div class="hero-number tabular" id="hero-number">—</div>
+              <div class="hero-delta" id="hero-delta"></div>
+              <p class="hero-desc">Weighted average across the three monitored chokepoints, recomputed on every agent cycle from live news, AIS, price, and sanctions signals.</p>
+            </div>
+          </div>
+        </div>
+        <div class="kpi-grid" id="kpi-grid">
+          <div class="kpi-tile skeleton" style="height:120px;"></div>
+          <div class="kpi-tile skeleton" style="height:120px;"></div>
+          <div class="kpi-tile skeleton" style="height:120px;"></div>
+          <div class="kpi-tile skeleton" style="height:120px;"></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Reference context</p>
+            <h2 class="section-title">Why these corridors matter to India</h2>
+          </div>
+          <span class="static-badge">Static reference — not live-computed</span>
+        </div>
+        <div class="context-grid">
+          <div class="context-card">
+            <div class="context-figure">88%</div>
+            <div class="context-label">of India's crude oil is imported</div>
+            <div class="context-body">Roughly 40–45% of that volume transits the Strait of Hormuz, making it the single largest structural exposure in India's energy supply chain.</div>
+          </div>
+          <div class="context-card">
+            <div class="context-figure">9.5</div>
+            <div class="context-label">days of Strategic Reserve cover</div>
+            <div class="context-body">India's Strategic Petroleum Reserves provide roughly 9.5 days of national consumption — a buffer that a sustained multi-corridor disruption would exhaust quickly.</div>
+          </div>
+          <div class="context-card">
+            <div class="context-figure">47</div>
+            <div class="context-label">days slower to stabilize, without this</div>
+            <div class="context-body">Per McKinsey's analysis of past supply shocks, economies without automated rerouting and response intelligence took 47 days longer to stabilize supply than those with it.</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Monitored corridors</p>
+            <h2 class="section-title">Chokepoint risk, signal by signal</h2>
+          </div>
+        </div>
+        <div class="corridor-grid" id="corridor-grid">
+          <div class="corridor-card skeleton" style="height:280px;"></div>
+          <div class="corridor-card skeleton" style="height:280px;"></div>
+          <div class="corridor-card skeleton" style="height:280px;"></div>
+        </div>
+      </section>
+
+      <section class="two-col-wide">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Top signals</h3>
+            <span class="muted tabular" id="top-signals-window">last 24h</span>
+          </div>
+          <div id="top-signals" class="signals-list"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Geographic overview</h3>
+            <span class="muted">colored by live risk</span>
+          </div>
+          <div id="map"></div>
+          <div class="map-legend">
+            <span><span class="sw" style="background:#6B7280"></span>Low</span>
+            <span><span class="sw" style="background:#D97706"></span>Elevated</span>
+            <span><span class="sw" style="background:#C8102E"></span>High</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Intelligence feed</p>
+            <h2 class="section-title">Every signal behind the score</h2>
+          </div>
+          <div class="filter-tabs" id="filter-tabs"></div>
+        </div>
+        <div class="panel">
+          <div id="log" class="log"><div class="log-empty">Loading…</div></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/nav.js"></script>
+<script src="js/gauge.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
